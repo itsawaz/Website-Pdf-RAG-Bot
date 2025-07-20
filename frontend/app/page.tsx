@@ -135,7 +135,14 @@ export default function ChatInterface() {
 
       // Stream the response
       for await (const chunk of chatAPI.sendMessageStream(messageContent)) {
-        accumulatedContent += chunk;
+        if (chunk.replace) {
+          // Replace the entire content if filtering was applied
+          accumulatedContent = chunk.content;
+        } else {
+          // Append to existing content
+          accumulatedContent += chunk.content;
+        }
+        
         setMessages((prev) => 
           prev.map(msg => 
             msg.id === botMessageId 

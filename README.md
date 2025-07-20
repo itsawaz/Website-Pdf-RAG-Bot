@@ -10,7 +10,9 @@ A beautiful, modern RAG (Retrieval-Augmented Generation) chatbot powered by Goog
 📄 **PDF Support** - Upload and process PDF documents  
 🌐 **Website Scraping** - Add websites as knowledge sources  
 💾 **Persistent Storage** - ChromaDB for vector storage  
-🎨 **Responsive Design** - Works on desktop and mobile  
+� **Smart Filtering** - Similarity-based filtering prevents irrelevant responses  
+🔍 **Debug Mode** - Optional similarity score debugging  
+�🎨 **Responsive Design** - Works on desktop and mobile  
 ⚡ **Real-time Chat** - Fast responses with typing indicators  
 
 ## AI Model Options
@@ -169,7 +171,29 @@ BACKEND_PORT=8000
 FRONTEND_URL=http://localhost:3000
 CHUNK_SIZE=500
 CHUNK_OVERLAP=50
+
+# Similarity Filtering (Advanced)
+SIMILARITY_THRESHOLD=0.3  # Range 0.0-1.0, lower = more strict filtering
+DEBUG_SIMILARITY=false   # Set to 'true' to see similarity scores in logs
 ```
+
+## Smart Response Filtering
+
+The chatbot now includes intelligent similarity-based filtering to prevent irrelevant or hallucinated responses:
+
+🎯 **How it works:**
+- When you ask a question, the system calculates similarity scores between your query and all documents
+- Only documents above the similarity threshold (default 0.3) are used to generate responses
+- If no documents meet the threshold, the system responds with "No related information found" instead of guessing
+
+🔧 **Configuration:**
+- `SIMILARITY_THRESHOLD`: Adjust from 0.0 (very permissive) to 1.0 (very strict)
+  - 0.3 (default): Balanced filtering
+  - 0.2: More permissive, includes marginally relevant content
+  - 0.5: Stricter, only highly relevant content
+- `DEBUG_SIMILARITY=true`: See similarity scores in backend logs for tuning
+
+🧪 **Testing:** Run `python test_similarity_filtering.py` to test the filtering with sample queries.
 
 ## Troubleshooting
 
